@@ -28,9 +28,13 @@ class Images:
     def getCharacter(self, quote: Quote):
         self.search(f"{ quote.character } { quote.anime }")
 
-        return self.driver.execute_script(self.script)
-    
+        src = self.driver.execute_script(self.script)
+
+        quote.characterImage = src
+
     def getAnimeWallpaper(self, quote: Quote):
         self.search(f"{ quote.anime } Wallpaper")
         
-        return self.driver.execute_script(self.script)
+        src = self.driver.execute_script(self.script)
+
+        quote.animeImage = src
