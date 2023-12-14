@@ -9,6 +9,9 @@ readme = "README.md"
 python = "^3.12"
 requests = "^2.31.0"
 selenium = "^4.16.0"
+moviepy = "^1.0.3"
+pillow = "^10.1.0"
+numpy = "^1.26.2"
 
 
 [build-system]
