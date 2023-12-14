@@ -2,14 +2,20 @@ from selenium.webdriver import Chrome
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
-
 from animequotevideo.models.quote import Quote
+from uuid import uuid4 as uuid
+from os import makedirs
+from base64 import b64decode
+from requests import get
+from PIL import Image
+from io import StringIO
 
 class Images:
     def __init__(self) -> None:
         self.driver = Chrome()
         self.url = "https://www.google.com/imghp"
         self.script = "return [... document.querySelectorAll(\"img[alt]\")].filter(img => img.alt)[2].src"
+        makedirs("./.tmp", exist_ok = True)
 
     def __enter__(self):
         return self
@@ -25,16 +31,38 @@ class Images:
             .send_keys(Keys.ENTER)\
             .perform()
 
+    def downloadImage(self, src: str) -> str:
+        filename = f".tmp/{ uuid() }.png"
+
+        if "base64," in src:
+            data = src.split("base64,").pop()
+            data = b64decode(data)
+
+            with open(filename, "wb") as file:
+                file.write(data)
+        
+        if "http" in src: 
+            response = get(src)
+            Image\
+                .open(StringIO(response.content))\
+                .save(filename)
+
+        return filename
+
     def getCharacter(self, quote: Quote):
         self.search(f"{ quote.character } { quote.anime }")
 
-        src = self.driver.execute_script(self.script)
+        src: str = self.driver.execute_script(self.script)
 
-        quote.characterImage = src
+        filename = self.downloadImage(src)
+
+        quote.characterImage = filename
 
     def getAnimeWallpaper(self, quote: Quote):
         self.search(f"{ quote.anime } Wallpaper")
         
-        src = self.driver.execute_script(self.script)
+        src: str = self.driver.execute_script(self.script)
 
-        quote.animeImage = src
+        filename = self.downloadImage(src)
+
+        quote.animeImage = filename
