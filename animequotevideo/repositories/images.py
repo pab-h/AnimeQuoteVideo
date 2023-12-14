@@ -1,4 +1,5 @@
 from selenium.webdriver import Chrome
+from selenium.webdriver import ChromeOptions
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
@@ -12,7 +13,9 @@ from io import StringIO
 
 class Images:
     def __init__(self) -> None:
-        self.driver = Chrome()
+        options = ChromeOptions()
+        options.add_argument("--headless=new")
+        self.driver = Chrome(options)
         self.url = "https://www.google.com/imghp"
         self.script = "return [... document.querySelectorAll(\"img[alt]\")].filter(img => img.alt)[2].src"
         makedirs("./.tmp", exist_ok = True)
