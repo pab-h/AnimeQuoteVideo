@@ -19,8 +19,11 @@ class Answer(NeedQuote):
 
     def build(self) -> VideoClip:
         with Images() as images: 
-            images.getCharacter(self.quote)
-            images.getAnimeWallpaper(self.quote)
+            if not self.quote.animeImage:
+                images.getCharacter(self.quote)
+
+            if not self.quote.characterImage:
+                images.getAnimeWallpaper(self.quote)
 
         background = Image.open(self.quote.animeImage)
         background = background.resize((1280, 720))
