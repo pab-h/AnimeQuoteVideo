@@ -11,7 +11,7 @@ class QuoteVideo(NeedQuote):
     def __init__(self, quote: Quote) -> None:
         super().__init__(quote)
 
-    def build(self) -> VideoClip():
+    def build(self) -> VideoClip:
         quote = TextClip(
             f"\"{ self.quote.quote }\"", 
             color = "white", 
