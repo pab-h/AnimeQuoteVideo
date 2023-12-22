@@ -79,5 +79,9 @@ class AuthorsColumn(Base):
 
             clips.append(character)
 
-        return CompositeVideoClip(clips)
+        video = CompositeVideoClip(clips)
+        video = video.set_duration(10)
+        video = video.set_fps(1)
+
+        return video
     
