@@ -18,12 +18,13 @@ class Answer(NeedQuote):
         super().__init__(quote)
 
     def build(self) -> VideoClip:
-        with Images() as images: 
-            if not self.quote.animeImage:
-                images.getCharacter(self.quote)
-
-            if not self.quote.characterImage:
+        if not self.quote.animeImage:
+            with Images() as images: 
                 images.getAnimeWallpaper(self.quote)
+
+        if not self.quote.characterImage:
+            with Images() as images: 
+                images.getCharacter(self.quote)
 
         background = Image.open(self.quote.animeImage)
         background = background.resize((1280, 720))
@@ -51,3 +52,4 @@ class Answer(NeedQuote):
         video = video.set_fps(1)
 
         return video
+    
