@@ -1,12 +1,16 @@
 import sqlite3
+
 from sqlite3 import Cursor
 
 from typing import Optional
 
 from animequotevideo.models.quote import Quote
+from animequotevideo.repositories.quoterepository import QuoteRepository
 
-class QuoteCache:
+class QuoteCache(QuoteRepository):
     def __init__(self) -> None:
+        super().__init__()
+
         self.connection = sqlite3.connect("./quote-cache.db")
         self.cursor: Optional[Cursor] = None
 

@@ -2,9 +2,12 @@ import requests
 
 from animequotevideo.models.quote import Quote
 from animequotevideo.repositories.quotecache import QuoteCache
+from animequotevideo.repositories.quoterepository import QuoteRepository
 
-class QuoteApi:
+class QuoteApi(QuoteRepository):
     def __init__(self) -> None:
+        super().__init__()
+        
         self.url = "https://animechan.xyz/api"
 
     def randomQuote(self) -> Quote:
