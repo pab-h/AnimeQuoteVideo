@@ -11,6 +11,9 @@ class QuoteVideo(NeedQuote):
     def __init__(self, quote: Quote) -> None:
         super().__init__(quote)
 
+        self.quoteFont = "./animequotevideo/assets/PlayfairDisplay-VariableFont_wght.ttf"
+        self.whoseFont = "./animequotevideo/assets/BungeeSpice-Regular.ttf"
+
     def build(self) -> VideoClip:
         quote = TextClip(
             f"\"{ self.quote.quote }\"", 
@@ -19,7 +22,7 @@ class QuoteVideo(NeedQuote):
             method = "caption",
             size = (700, None),
             kerning = 1,
-            font = "PlayfairDisplay-VariableFont_wght.ttf"
+            font = self.quoteFont
         )
         quote = quote.set_position("center")
 
@@ -27,7 +30,7 @@ class QuoteVideo(NeedQuote):
             "Whose quote is that?",
             color = "orange",    
             fontsize = 50,
-            font = "./assets/BungeeSpice-Regular.ttf",
+            font = self.whoseFont,
             kerning = 1
         )
         whose = whose.set_position("top")
