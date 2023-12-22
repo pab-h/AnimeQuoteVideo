@@ -9,7 +9,7 @@ from os import makedirs
 from base64 import b64decode
 from requests import get
 from PIL import Image
-from io import StringIO
+from io import BytesIO
 
 class Images:
     def __init__(self) -> None:
@@ -46,9 +46,8 @@ class Images:
         
         if "http" in src: 
             response = get(src)
-            Image\
-                .open(StringIO(response.content))\
-                .save(filename)
+            with BytesIO(response.content) as bytes:
+                Image.open(bytes).save(filename)
 
         return filename
 
