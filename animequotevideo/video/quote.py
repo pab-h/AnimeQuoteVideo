@@ -1,4 +1,7 @@
+import logging
+
 from animequotevideo.models.quote import Quote
+
 from animequotevideo.video.timer import Timer
 from animequotevideo.video.needquote import NeedQuote
 
@@ -15,6 +18,8 @@ class QuoteVideo(NeedQuote):
         self.whoseFont = "./animequotevideo/assets/BungeeSpice-Regular.ttf"
 
     def build(self) -> VideoClip:
+        logging.info("building a quote clip")
+
         quote = TextClip(
             f"\"{ self.quote.quote }\"", 
             color = "white", 

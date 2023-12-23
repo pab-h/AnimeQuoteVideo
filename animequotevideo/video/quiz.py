@@ -1,3 +1,5 @@
+import logging
+
 from animequotevideo.models.quote import Quote
 
 from animequotevideo.video.needquote import NeedQuote
@@ -12,6 +14,8 @@ class Quiz(NeedQuote):
         super().__init__(quote)
 
     def build(self) -> VideoClip:
+        logging.info("building a quiz clip")
+
         quote = QuoteVideo(self.quote).build()
         answer = Answer(self.quote).build()
 

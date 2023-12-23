@@ -1,3 +1,5 @@
+import logging
+
 import sqlite3
 
 from sqlite3 import Cursor
@@ -29,6 +31,8 @@ class QuoteCache(QuoteRepository):
         self.cursor.close()
 
     def store(self, quotes: Quote | list[Quote]) -> None:
+        logging.info(f"saving quotes on cache")
+
         if isinstance(quotes, Quote):
             quotes = [quotes]
  
@@ -44,6 +48,8 @@ class QuoteCache(QuoteRepository):
         self.connection.commit()
 
     def exitsQuote(self, quote: Quote) -> bool:
+        logging.info(f"checking if a quote exists on cache")
+
         sql = """
             SELECT * FROM quotes 
             WHERE 
@@ -59,6 +65,8 @@ class QuoteCache(QuoteRepository):
         return bool(result.fetchone())
 
     def randomQuote(self) -> Quote:
+        logging.info(f"get a random quote on cache")
+
         sql = "SELECT * FROM quotes ORDER BY RANDOM() LIMIT 1;"
 
         result = self.cursor.execute(sql)
@@ -74,6 +82,8 @@ class QuoteCache(QuoteRepository):
         )
 
     def randomQuotes(self) -> list[Quote]:
+        logging.info(f"get a random quotes on cache")
+
         sql = "SELECT * FROM quotes ORDER BY RANDOM() LIMIT 10;"
 
         result = self.cursor.execute(sql)
