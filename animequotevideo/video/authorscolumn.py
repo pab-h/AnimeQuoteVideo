@@ -1,3 +1,5 @@
+import logging
+
 from moviepy.editor import VideoClip
 from moviepy.editor import ColorClip
 from moviepy.editor import ImageClip
@@ -34,6 +36,7 @@ class AuthorsColumn(Base):
 
     def prepareImage(self, quote: Quote, blur = True) -> ImageClip:
         character = Image.open(quote.characterImage)
+        character = character.convert("RGB")
         character = character.resize((60, 60))
 
         alpha = Image.new("L", character.size, 0)
@@ -57,6 +60,8 @@ class AuthorsColumn(Base):
         return ImageClip(character)
 
     def build(self) -> VideoClip:
+        logging.info(f"building author`s column clip [{ self.current }]")
+
         for quote in self.quotes:
             if not quote.characterImage:
                 with Images() as images:

@@ -1,3 +1,5 @@
+import logging
+
 from numpy import array
 
 from animequotevideo.models.quote import Quote
@@ -18,6 +20,8 @@ class Answer(NeedQuote):
         super().__init__(quote)
 
     def build(self) -> VideoClip:
+        logging.info("building answer clip")
+
         if not self.quote.animeImage:
             with Images() as images: 
                 images.getAnimeWallpaper(self.quote)
@@ -27,6 +31,7 @@ class Answer(NeedQuote):
                 images.getCharacter(self.quote)
 
         background = Image.open(self.quote.animeImage)
+        background = background.convert("RGB")
         background = background.resize((1280, 720))
         background = background.filter(ImageFilter.BoxBlur(10)) 
         background = ImageClip(array(background))
