@@ -1,3 +1,5 @@
+import logging
+
 from moviepy.editor import VideoClip
 from moviepy.editor import CompositeVideoClip
 from moviepy.editor import AudioFileClip
@@ -19,6 +21,8 @@ class Video(Base):
         self.audio = "./animequotevideo/assets/Path-to-Follow.mp3"
 
     def build(self) -> VideoClip:
+        logging.info("building the entire video")
+
         quotes = self.repo.randomQuotes()
 
         # ToDo: Validar o tamanho da citacao
@@ -28,8 +32,11 @@ class Video(Base):
         clips = []
 
         for quote in quotes:
+            authorcolumnTmp = authorcolumn.build()
             quiz = Quiz(quote).build()
-            tmp = CompositeVideoClip([ quiz, authorcolumn.build() ])
+
+            tmp = CompositeVideoClip([ quiz, authorcolumnTmp ])
+            
             next(authorcolumn)
 
             clips.append(tmp)
