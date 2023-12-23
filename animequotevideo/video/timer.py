@@ -1,3 +1,5 @@
+import logging
+
 from animequotevideo.models.quote import Quote
 from animequotevideo.video.base import Base
 
@@ -62,6 +64,8 @@ class Timer(Base):
         ) 
 
     def build(self) -> VideoClip:
+        logging.info("building a timer clip")
+
         timer = self.create_timer(10)
         timer = timer.margin(bottom = 75, opacity=0)
         timer = timer.set_position("bottom")
